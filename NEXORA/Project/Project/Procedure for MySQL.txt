@@ -1,0 +1,23 @@
+1. Open MySQL Workbench
+
+Launch MySQL Workbench and connect to your local database instance to ensure your database server is running in the background.
+
+2. Start the Backend (Flask Server)
+
+Open Command Prompt.
+Move to your project directory:
+
+----E:
+----cd "E:\NEXORA\Project\Project\backend"
+----Run your Flask server:
+----py -3.14 app.py (Keep this Command Prompt window open while you work).
+
+3. Start the Frontend (Live Server)
+
+Open your project folder in VS Code.
+
+Right-click auth.html and select Open with Live Server (or run python -m http.server 8000 in a second Command Prompt window).
+
+4. Test and Develop (Open your browser to your local site (e.g., http://localhost:8000/auth.html).
+
+You are ready to code, test signups, or build new features!

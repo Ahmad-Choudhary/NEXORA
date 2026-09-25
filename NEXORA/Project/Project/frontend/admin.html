@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel | NEXORA</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .admin-page { background: var(--off-white); min-height: 100vh; padding: 3rem 0 5rem; }
+    .admin-panel { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); padding: 1.5rem; }
+    .admin-table-wrap { overflow-x: auto; }
+    .admin-table { min-width: 680px; margin-bottom: 0; vertical-align: middle; }
+    .admin-table th { color: var(--text-soft); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
+    .admin-table td { color: var(--text-mid); font-size: .84rem; }
+    .admin-table tbody tr:last-child td { border-bottom: 0; }
+    .admin-form { background: var(--teal-xpale); border: 1px solid var(--border-light); border-radius: var(--radius-sm); padding: 1.25rem; }
+    .admin-form .form-control { border-color: var(--border); font-size: .84rem; }
+    .admin-form .form-control:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(43,143,128,.12); }
+    .admin-status { min-height: 1.5rem; font-size: .84rem; }
+    .admin-empty { color: var(--text-soft); padding: 1.5rem 0; text-align: center; }
+    .admin-badge { background: var(--teal-pale); border-radius: 50px; color: var(--teal); font-size: .72rem; font-weight: 700; padding: .25rem .65rem; }
+  </style>
+</head>
+<body>
+  <nav class="navbar-custom">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg p-0" style="width:100%; background:transparent;">
+        <a class="navbar-brand" href="index.html"><span class="brand-icon"><i class="fas fa-brain"></i></span>NEXORA</a>
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+            <li class="nav-item"><a class="nav-link nav-link-custom" href="index.html"><i class="fas fa-home me-1"></i>Home</a></li>
+            <li class="nav-item"><a class="nav-link nav-link-custom" href="assessment.html"><i class="fas fa-clipboard-list me-1"></i>Take Test</a></li>
+            <li class="nav-item"><a class="nav-link nav-link-custom" href="psychologists.html"><i class="fas fa-user-md me-1"></i>Psychologists</a></li>
+            <li class="nav-item" id="nav-admin-link" style="display:none;"><a class="nav-link nav-link-custom active" href="admin.html"><i class="fas fa-shield-halved me-1"></i>Admin</a></li>
+            <li class="nav-item ms-lg-2" id="nav-login-btn"><a class="nav-link btn-nav-login" href="auth.html"><i class="fas fa-sign-in-alt me-1"></i>Login</a></li>
+            <li class="nav-item ms-lg-2" id="nav-logout-btn" style="display:none;"><button type="button" onclick="logout()" class="nav-link btn-nav-login border-0 bg-danger text-white px-3 rounded"><i class="fas fa-sign-out-alt me-1"></i>Logout</button></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+  <main class="admin-page">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="section-tag"><i class="fas fa-lock me-1"></i>Administrator Workspace</span>
+        <h1 class="section-title">NEXORA Admin Panel</h1>
+        <p class="section-sub">Manage professional profiles and review registered patient records.</p>
+      </div>
+
+      <div id="admin-alert" class="alert-custom" role="alert"></div>
+
+      <section class="admin-panel mb-4" aria-labelledby="psychologists-heading">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+          <div><h2 id="psychologists-heading" class="h4 mb-1">Psychologists Management</h2><p class="mb-0" style="color:var(--text-soft);font-size:.82rem;">Add or remove profiles shown in the admin directory.</p></div>
+          <span class="admin-badge" id="psychologist-count">0 profiles</span>
+        </div>
+        <form id="psychologist-form" class="admin-form row g-2 mb-4">
+          <div class="col-md-4"><label class="form-label" for="psychologist-name">Name</label><input class="form-control" id="psychologist-name" required maxlength="150" /></div>
+          <div class="col-md-4"><label class="form-label" for="psychologist-specialization">Specialization</label><input class="form-control" id="psychologist-specialization" required maxlength="150" /></div>
+          <div class="col-md-4"><label class="form-label" for="psychologist-email">Email</label><input type="email" class="form-control" id="psychologist-email" maxlength="255" /></div>
+          <div class="col-md-3"><label class="form-label" for="psychologist-contact">Contact</label><input class="form-control" id="psychologist-contact" maxlength="100" /></div>
+          <div class="col-md-3"><label class="form-label" for="psychologist-experience">Experience</label><input class="form-control" id="psychologist-experience" maxlength="100" placeholder="e.g. 8 years" /></div>
+          <div class="col-md-3"><label class="form-label" for="psychologist-availability">Availability</label><select class="form-select" id="psychologist-availability"><option>Available</option><option>Busy</option><option>Unavailable</option></select></div>
+          <div class="col-md-3 d-flex align-items-end"><button class="btn-primary-custom w-100" type="submit"><i class="fas fa-user-plus"></i>Add Psychologist</button></div>
+        </form>
+        <div class="admin-table-wrap"><table class="table admin-table"><thead><tr><th>Name</th><th>Specialization</th><th>Contact</th><th>Experience</th><th>Status</th><th>Action</th></tr></thead><tbody id="psychologists-list"></tbody></table></div>
+      </section>
+
+      <section class="admin-panel" aria-labelledby="users-heading">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+          <div><h2 id="users-heading" class="h4 mb-1">Patient and User Records</h2><p class="mb-0" style="color:var(--text-soft);font-size:.82rem;">Review each patient’s latest screening record.</p></div>
+          <span class="admin-badge" id="user-count">0 patients</span>
+        </div>
+        <div class="admin-table-wrap"><table class="table admin-table"><thead><tr><th>Patient</th><th>Email</th><th>Registered</th><th>Latest PHQ-9</th><th>Risk category</th><th>Action</th></tr></thead><tbody id="users-list"></tbody></table></div>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/script.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

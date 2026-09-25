@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy | NEXORA</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<nav class="navbar-custom">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg p-0" style="width:100%; background:transparent;">
+      <a class="navbar-brand" href="index.html">
+        <span class="brand-icon"><i class="fas fa-brain"></i></span>
+        NEXORA
+      </a>
+      <button class="navbar-toggler border-0 shadow-none" type="button"
+              data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+          <li class="nav-item"><a class="nav-link nav-link-custom" href="index.html" data-page="home"><i class="fas fa-home me-1"></i>Home</a></li>
+          <li class="nav-item"><a class="nav-link nav-link-custom" href="assessment.html" data-page="assessment"><i class="fas fa-clipboard-list me-1"></i>Take Test</a></li>
+          <li class="nav-item"><a class="nav-link nav-link-custom" href="chatbot.html" data-page="chatbot"><i class="fas fa-comment-dots me-1"></i>Chatbot</a></li>
+          <li class="nav-item"><a class="nav-link nav-link-custom" href="psychologists.html" data-page="psychologists"><i class="fas fa-user-md me-1"></i>psychologists</a></li>
+          <li class="nav-item" id="nav-admin-link" style="display:none;"><a class="nav-link nav-link-custom" href="admin.html" data-page="admin"><i class="fas fa-shield-halved me-1"></i>Admin</a></li>
+          <li class="nav-item ms-lg-2" id="nav-login-btn">
+            <a class="nav-link btn-nav-login" href="auth.html" data-page="login"><i class="fas fa-sign-in-alt me-1"></i>Login</a>
+          </li>
+          <li class="nav-item ms-lg-2" id="nav-logout-btn" style="display: none;">
+            <button type="button" onclick="logout()" class="nav-link btn-nav-login border-0 bg-danger text-white px-3 rounded" style="cursor: pointer;">
+              <i class="fas fa-sign-out-alt me-1"></i>Logout
+            </button>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</nav>
+
+<main>
+  <div class="legal-page-wrap">
+    <div class="container">
+
+      <div class="assessment-header">
+        <span class="section-tag">Legal</span>
+        <h2>Privacy Policy</h2>
+        <p style="color:var(--text-soft); margin-top:.5rem;">Last updated: January 2026</p>
+      </div>
+
+      <div class="legal-layout">
+
+        <!-- ----------------------------------Sticky Table--------------------------------->
+        <aside class="legal-toc">
+          <p class="legal-toc-title">On this page</p>
+          <nav>
+            <a href="#data-collection" class="legal-toc-link">Data We Collect</a>
+            <a href="#ai-data-usage" class="legal-toc-link">How We Use Your Data</a>
+            <a href="#confidentiality" class="legal-toc-link">Confidentiality</a>
+            <a href="#security" class="legal-toc-link">Security Measures</a>
+            <a href="#user-rights" class="legal-toc-link">Your Rights</a>
+            <a href="#childrens-privacy" class="legal-toc-link">Children's Privacy</a>
+            <a href="#policy-changes" class="legal-toc-link">Changes to This Policy</a>
+            <a href="#contact" class="legal-toc-link">Contact Us</a>
+          </nav>
+        </aside>
+
+        <div class="legal-content">
+
+          <section id="data-collection" class="legal-section">
+            <h3>1. Data We Collect</h3>
+            <p>To provide our screening and guidance features, NEXORA collects the following information:</p>
+            <ul>
+              <li><strong>Account information</strong> your full name, email address, and a securely hashed password (we never store your password in plain text).</li>
+              <li><strong>PHQ-9 and lifestyle screening responses</strong> your answers to the assessment questions, the resulting score, severity classification, and lifestyle risk indicators.</li>
+              <li><strong>Usage data</strong> pages visited and basic interaction data used to keep the platform working correctly.</li>
+            </ul>
+          </section>
+
+          <section id="ai-data-usage" class="legal-section">
+            <h3>2. How We Use Your Data</h3>
+            <p>Your screening responses are used solely to generate your personalized PHQ-9 result and lifestyle risk indicator. To do this:</p>
+            <ul>
+              <li>Your assessment answers are sent to our machine learning model, which is currently hosted on a separate research environment (Google Colab, accessed via a secure tunnel) for processing.</li>
+              <li>The resulting score, severity, and risk level are sent back to our servers and stored against your account so you can view your history.</li>
+              <li>We do not sell your data to third parties, and we do not use your screening responses for advertising.</li>
+            </ul>
+          </section>
+
+          <section id="confidentiality" class="legal-section">
+            <h3>3. Confidentiality</h3>
+            <p>Your assessment history is only visible to you when logged into your own account. We treat your mental health information as sensitive data and limit internal access to what is strictly necessary to operate and maintain the platform.</p>
+          </section>
+
+          <section id="security" class="legal-section">
+            <h3>4. Security Measures</h3>
+            <ul>
+              <li>Passwords are hashed using industry-standard hashing (bcrypt) before being stored we cannot see your actual password, even internally.</li>
+              <li>Your data is stored in a MySQL database accessible only through authenticated backend services.</li>
+              <li>We recommend using a unique password for your NEXORA account and not sharing your login credentials with anyone.</li>
+            </ul>
+          </section>
+
+          <section id="user-rights" class="legal-section">
+            <h3>5. Your Rights</h3>
+            <p>You have the right to:</p>
+            <ul>
+              <li>Access the assessment history stored under your account at any time via the "View Past Results" section.</li>
+              <li>Request correction of inaccurate account information.</li>
+              <li>Request deletion of your account and associated data by contacting us at the email below.</li>
+            </ul>
+          </section>
+
+          <section id="childrens-privacy" class="legal-section">
+            <h3>6. Children's Privacy</h3>
+            <p>NEXORA is intended for general audiences seeking mental health screening and guidance. If you are a minor, please use this platform with the awareness and support of a parent, guardian, or trusted adult, and always involve a qualified professional for anything beyond general self-help information.</p>
+          </section>
+
+          <section id="policy-changes" class="legal-section">
+            <h3>7. Changes to This Policy</h3>
+            <p>We may update this Privacy Policy from time to time as the platform evolves. Continued use of NEXORA after changes are posted constitutes acceptance of the revised policy.</p>
+          </section>
+
+          <section id="contact" class="legal-section">
+            <h3>8. Contact Us</h3>
+            <p>If you have questions about this Privacy Policy or how your data is handled, please reach out:</p>
+            <p><i class="fas fa-envelope me-2" style="color:var(--teal);"></i>nexorahealthcare41@gmail.com</p>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+
+      <div class="row gy-4">
+        <div class="col-lg-4">
+          <div class="footer-brand"><i class="fas fa-brain me-2"></i>NEXORA</div>
+          <p>A mental health screening and support platform. We're here whenever you need a caring presence.</p>
+        </div>
+        <div class="col-lg-2 col-6">
+          <p style="color:rgba(255,255,255,.7); font-weight:600; margin-bottom:.75rem;">Navigation</p>
+          <div class="d-flex flex-column gap-2">
+            <a href="index.html" class="footer-link" data-page="home">Home</a>
+            <a href="assessment.html" class="footer-link" data-page="assessment">Take Test</a>
+            <a href="chatbot.html" class="footer-link" data-page="chatbot">Chatbot</a>
+            <a href="psychologists.html" class="footer-link" data-page="psychologists">psychologists</a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <p style="color:rgba(255,255,255,.7); font-weight:600; margin-bottom:.75rem;">Resources</p>
+          <div class="d-flex flex-column gap-2">
+            <a href="crisis-helpline.html" class="footer-link">Crisis Helpline</a>
+            <a href="articles.html" class="footer-link">Self-Help Articles</a>
+            <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
+            <a href="terms-of-use.html" class="footer-link">Terms of Use</a>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <p style="color:rgba(255,255,255,.7); font-weight:600; margin-bottom:.75rem;">Get in Touch for Support</p>
+          <p style="font-size:.85rem;"><i class="fas fa-envelope me-2" style="color:var(--teal-light)"></i>nexorahealthcare41@gmail.com</p>
+          <p style="font-size:.85rem;"><i class="fas fa-map-marker-alt me-2" style="color:var(--teal-light)"></i>Available in Pakistan</p>
+          <div class="d-flex gap-3 mt-3">
+            <a href="https://www.facebook.com/share/p/19oHqh7UmR/" class="footer-link" style="font-size:1.1rem;"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com/nexor_ahealthcare?stkn=d25pcmM5bmhqZmlo&utm_source=qr" class="footer-link" style="font-size:1.1rem;"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.threads.com/@nexor_ahealthcare" class="footer-link" style="font-size:1.1rem;"><i class="fab fa-threads"></i></a>
+          </div>
+        </div>
+      </div>
+      <hr class="mt-4 mb-3" />
+      <div class="footer-copy">
+         This tool is for informational purposes only and does not constitute medical diagnosis.
+      </div>
+    </div>
+  </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/script.js"></script>
+
+<!-- --------------------------highlight active link while scrolling------------------- -->
+<script>
+  (function () {
+    const links = Array.from(document.querySelectorAll('.legal-toc-link'));
+    const sections = links
+      .map(link => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = '#' + entry.target.id;
+          links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === id));
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+
+    sections.forEach(section => observer.observe(section));
+  })();
+</script>
+
+</body>
+</html>

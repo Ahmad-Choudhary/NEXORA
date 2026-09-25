@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NEXORA</title>
+
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<!-- ////////////////////////////////////// Navbar //////////////////////////////// -->
+<nav class="navbar-custom">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg p-0" style="width:100%; background:transparent;">
+
+      <a class="navbar-brand" href="index.html">
+        <span class="brand-icon"><i class="fas fa-brain"></i></span>
+        NEXORA
+      </a>
+
+      <button class="navbar-toggler border-0 shadow-none" type="button"
+              data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom active" href="index.html" data-page="home">
+              <i class="fas fa-home me-1"></i>Home
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="assessment.html" data-page="assessment">
+              <i class="fas fa-clipboard-list me-1"></i>Take Test
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="chatbot.html" data-page="chatbot">
+              <i class="fas fa-comment-dots me-1"></i>Chatbot
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="psychologists.html" data-page="psychologists">
+              <i class="fas fa-user-md me-1"></i>psychologists
+            </a>
+          </li>
+          <li class="nav-item" id="nav-admin-link" style="display:none;">
+            <a class="nav-link nav-link-custom" href="admin.html" data-page="admin">
+              <i class="fas fa-shield-halved me-1"></i>Admin
+            </a>
+          </li>
+<li class="nav-item ms-lg-2" id="nav-login-btn">
+  <a class="nav-link btn-nav-login" href="auth.html" data-page="login">
+    <i class="fas fa-sign-in-alt me-1"></i>Login
+  </a>
+</li>
+
+<li class="nav-item ms-lg-2" id="nav-logout-btn" style="display: none;">
+  <button type="button" onclick="logout()" class="nav-link btn-nav-login border-0 bg-danger text-white px-3 rounded" style="cursor: pointer;">
+    <i class="fas fa-sign-out-alt me-1"></i>Logout
+  </button>
+</li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</nav>
+
+<main>
+  <section class="hero-section">
+    <div class="container">
+      <div class="row align-items-center gy-5">
+
+        <div class="col-lg-6 col-12">
+          <div class="hero-badge fade-in-up">
+            <span class="dot"></span>
+            AI-Powered Mental Health Support
+          </div>
+
+          <h1 class="hero-title fade-in-up delay-1">
+            Your mental health<br>
+            <span class="accent">matters deeply</span><br>
+             we're here to help.
+          </h1>
+
+          <p class="hero-desc fade-in-up delay-2">
+            AI-based mental health risk prediction and guidance system uses a clinically validated PHQ-9 screening tool and AI-assisted guidance to help you understand your mental wellbeing and connect with the right support.
+          </p>
+
+          <div class="d-flex flex-wrap gap-3 fade-in-up delay-3">
+<button class="btn-primary-custom" data-page="assessment">
+  <i class="fas fa-clipboard-check"></i>
+  Welcome to NEXORA
+</button>
+            <button class="btn-outline-custom" data-page="chatbot">
+              <i class="fas fa-comment-dots"></i>
+              Talk to Chatbot
+            </button>
+          </div>
+
+          <div class="hero-stats fade-in-up delay-4">
+            <div class="stat-item">
+              <div class="stat-num">10K+</div>
+              <div class="stat-label">Assessments taken</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">95%</div>
+              <div class="stat-label">User satisfaction</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">24/7</div>
+              <div class="stat-label">AI support</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-12">
+          <div class="hero-visual fade-in-up delay-2">
+            <div class="hero-card">
+              <div class="hero-card-header">
+                <div class="hero-card-avatar"><i class="fas fa-brain"></i></div>
+                <div>
+                  <div class="hero-card-name">Health & Wellbeing Indicators</div>
+                  <div class="hero-card-sub">Overview of core mental health and lifestyle factors</div>
+                </div>
+              </div>
+
+              <div class="wellbeing-row">
+                <div class="wellbeing-row-label">
+                  <span>Daily Mood Tracking</span><span>Consistent</span>
+                </div>
+                <div class="wellbeing-line-track">
+                  <div class="wellbeing-line"></div>
+                </div>
+              </div>
+              <div class="wellbeing-row">
+                <div class="wellbeing-row-label">
+                  <span>Quality sleep time</span><span>7-9 hours</span>
+                </div>
+                <div class="wellbeing-line-track">
+                  <div class="wellbeing-line"></div>
+                </div>
+              </div>
+              <div class="wellbeing-row">
+                <div class="wellbeing-row-label">
+                  <span>Social Interaction</span><span>Daily Support</span>
+                </div>
+                <div class="wellbeing-line-track">
+                  <div class="wellbeing-line"></div>
+                </div>
+              </div>
+              <div class="wellbeing-row">
+                <div class="wellbeing-row-label">
+                  <span>Target Stress Level</span><span>Low to Moderate</span>
+                </div>
+                <div class="wellbeing-line-track">
+                  <div class="wellbeing-line"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="hero-floating-badge badge-1">
+              <i class="fas fa-shield-heart"></i> Self Assessment Resource
+            </div>
+            <div class="hero-floating-badge badge-2">
+              <i class="fas fa-star"></i> Clinically Validated
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="how-section">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="section-tag">How It Works</span>
+        <h2 class="section-title">Three simple steps to better wellbeing</h2>
+        <p class="section-sub">Getting started takes just a few minutes. Your privacy is always protected.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="step-card">
+            <span class="step-num">01</span>
+            <div class="step-icon"><i class="fas fa-clipboard-list"></i></div>
+            <h4>Take the Screening</h4>
+            <p>Answer 9 short questions based on the PHQ-9 the gold-standard tool used by mental health professionals worldwide.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="step-card">
+            <span class="step-num">02</span>
+            <div class="step-icon"><i class="fas fa-chart-pie"></i></div>
+            <h4>Get Your Results</h4>
+            <p>Instantly receive a personalised risk assessment with practical, evidence-based suggestions tailored to your score.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mx-auto">
+          <div class="step-card">
+            <span class="step-num">03</span>
+            <div class="step-icon"><i class="fas fa-hands-helping"></i></div>
+            <h4>Connect with Support</h4>
+            <p>Chat with our AI assistant or browse certified psychologists near you professional help is just a click away.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-5 p-4 p-lg-5 rounded-4 text-center"
+           style="background: linear-gradient(135deg, var(--teal-pale), var(--green-pale)); border: 1px solid var(--border);">
+        <h3 style="font-family:var(--font-head); color:var(--text-dark); margin-bottom:.75rem;">
+          You deserve to feel well
+        </h3>
+        <p style="color:var(--text-soft); margin-bottom:1.5rem; max-width:480px; margin-left:auto; margin-right:auto;">
+          This tool is not a substitute for professional diagnosis, but it is a gentle first step, start your free assessment today.
+        </p>
+        <button class="btn-primary-custom" data-page="assessment">
+          <i class="fas fa-arrow-right"></i> Begin Free Assessment
+        </button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+
+      <div class="row gy-4">
+        <div class="col-lg-4">
+          <div class="footer-brand"><i class="fas fa-brain me-2"></i>NEXORA</div>
+          <p>A mental health screening and support platform. We're here whenever you need a caring presence.</p>
+        </div>
+        <div class="col-lg-2 col-6">
+          <p style="color:rgba(255,255,255,.7); font-weight:600; margin-bottom:.75rem;">Navigation</p>
+          <div class="d-flex flex-column gap-2">
+            <a href="index.html" class="footer-link" data-page="home">Home</a>
+            <a href="assessment.html" class="footer-link" data-page="assessment">Take Test</a>
+            <a href="chatbot.html" class="footer-link" data-page="chatbot">Chatbot</a>
+            <a href="psychologists.html" class="footer-link" data-page="psychologists">psychologists</a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <p style="color:rgba(255,255,255,.7); font-weight:600; margin-bottom:.75rem;">Resources</p>
+          <div class="d-flex flex-column gap-2">
+            <a href="crisis-helpline.html" class="footer-link">Crisis Helpline</a>
+            <a href="articles.html" class="footer-link">Self-Help Articles</a>
+            <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
+            <a href="terms-of-use.html" class="footer-link">Terms of Use</a>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <p style="color:rgba(255,255,255,.7); font-weight:600; margin-bottom:.75rem;">Get in Touch for Support</p>
+          <p style="font-size:.85rem;"><i class="fas fa-envelope me-2" style="color:var(--teal-light)"></i>nexorahealthcare41@gmail.com</p>
+          <p style="font-size:.85rem;"><i class="fas fa-map-marker-alt me-2" style="color:var(--teal-light)"></i>Available in Pakistan</p>
+          <div class="d-flex gap-3 mt-3">
+            <a href="https://www.facebook.com/share/p/19oHqh7UmR/" class="footer-link" style="font-size:1.1rem;"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com/nexor_ahealthcare?stkn=d25pcmM5bmhqZmlo&utm_source=qr" class="footer-link" style="font-size:1.1rem;"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.threads.com/@nexor_ahealthcare" class="footer-link" style="font-size:1.1rem;"><i class="fab fa-threads"></i></a>
+          </div>
+        </div>
+      </div>
+      <hr class="mt-4 mb-3" />
+      <div class="footer-copy">
+         This tool is for informational purposes only and does not constitute medical diagnosis.
+      </div>
+    </div>
+  </footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    
+    
+<script src="js/script.js"></script>
+
+</body>
+</html>

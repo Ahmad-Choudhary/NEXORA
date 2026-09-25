@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Self-Help Articles | NEXORA</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  
+<!-- ///////////////////////////// Nav Bar /////////////////////////// -->
+
+<nav class="navbar-custom">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg p-0" style="width:100%; background:transparent;">
+      <a class="navbar-brand" href="index.html">
+        <span class="brand-icon"><i class="fas fa-brain"></i></span>
+       NEXORA
+      </a>
+      <button class="navbar-toggler border-0 shadow-none" type="button"
+              data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="index.html" data-page="home">
+              <i class="fas fa-home me-1"></i>Home
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="assessment.html" data-page="assessment">
+              <i class="fas fa-clipboard-list me-1"></i>Take Test
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="chatbot.html" data-page="chatbot">
+              <i class="fas fa-comment-dots me-1"></i>Chatbot
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="psychologists.html" data-page="psychologists">
+              <i class="fas fa-user-md me-1"></i>psychologists
+            </a>
+          </li>
+          <li class="nav-item" id="nav-admin-link" style="display:none;">
+            <a class="nav-link nav-link-custom" href="admin.html" data-page="admin">
+              <i class="fas fa-shield-halved me-1"></i>Admin
+            </a>
+          </li>
+          <li class="nav-item ms-lg-2" id="nav-login-btn">
+            <a class="nav-link btn-nav-login" href="auth.html" data-page="login">
+              <i class="fas fa-sign-in-alt me-1"></i>Login
+            </a>
+          </li>
+          <li class="nav-item ms-lg-2" id="nav-logout-btn" style="display: none;">
+            <button type="button" onclick="logout()" class="nav-link btn-nav-login border-0 bg-danger text-white px-3 rounded" style="cursor: pointer;">
+              <i class="fas fa-sign-out-alt me-1"></i>Logout
+            </button>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</nav>
+
+<main>
+  <div class="legal-page-wrap">
+    <div class="container" style="max-width:1100px;">
+
+      <div class="assessment-header">
+        <span class="section-tag">Self-Help Resources</span>
+        <h2>Articles for Your Wellbeing</h2>
+        <p style="color:var(--text-soft); margin-top:.5rem; max-width:600px; margin-left:auto; margin-right:auto;">
+          Short, practical reads on anxiety, depression, mindfulness, sleep, and everyday coping strategies.
+        </p>
+      </div>
+
+      <!-- -----------------------Search + Filters-------------------->
+      <div class="articles-toolbar">
+        <div class="articles-search">
+          <i class="fas fa-magnifying-glass"></i>
+          <input type="text" id="article-search" placeholder="Search articles…" autocomplete="off" />
+        </div>
+        <div class="articles-filters" id="article-filters">
+          <button type="button" class="filter-chip active" data-filter="all">All</button>
+          <button type="button" class="filter-chip" data-filter="anxiety">Anxiety</button>
+          <button type="button" class="filter-chip" data-filter="depression">Depression</button>
+          <button type="button" class="filter-chip" data-filter="mindfulness">Mindfulness</button>
+          <button type="button" class="filter-chip" data-filter="sleep">Sleep</button>
+          <button type="button" class="filter-chip" data-filter="coping">Coping Strategies</button>
+        </div>
+      </div>
+
+      <!-- ------------------------ Articles --------------------------->
+      <div class="articles-grid" id="articles-grid">
+
+        <article class="article-card" data-category="anxiety" data-title="5 Grounding Techniques for Anxiety in the Moment">
+          <div class="article-thumb thumb-anxiety"><i class="fas fa-wind"></i></div>
+          <div class="article-card-body">
+            <div class="article-meta">
+              <span class="article-tag tag-anxiety">Anxiety</span>
+              <span class="article-time"><i class="fas fa-clock"></i> 4 min read</span>
+            </div>
+            <h4>5 Grounding Techniques for Anxiety in the Moment</h4>
+            <p>Simple, science-backed exercises you can use anywhere to bring your body and mind back to the present.</p>
+            <button type="button" class="btn-read-article" data-bs-toggle="modal" data-bs-target="#article-1">
+              Read Article <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </article>
+
+        <article class="article-card" data-category="depression" data-title="Understanding Depression: Signs, Myths, and Small Steps Forward">
+          <div class="article-thumb thumb-depression"><i class="fas fa-cloud-rain"></i></div>
+          <div class="article-card-body">
+            <div class="article-meta">
+              <span class="article-tag tag-depression">Depression</span>
+              <span class="article-time"><i class="fas fa-clock"></i> 6 min read</span>
+            </div>
+            <h4>Understanding Depression: Signs, Myths, and Small Steps Forward</h4>
+            <p>What depression actually looks like, common misconceptions, and manageable first steps.</p>
+            <button type="button" class="btn-read-article" data-bs-toggle="modal" data-bs-target="#article-2">
+              Read Article <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </article>
+
+        <article class="article-card" data-category="mindfulness" data-title="A Beginner's Guide to Mindfulness Meditation">
+          <div class="article-thumb thumb-mindfulness"><i class="fas fa-leaf"></i></div>
+          <div class="article-card-body">
+            <div class="article-meta">
+              <span class="article-tag tag-mindfulness">Mindfulness</span>
+              <span class="article-time"><i class="fas fa-clock"></i> 5 min read</span>
+            </div>
+            <h4>A Beginner's Guide to Mindfulness Meditation</h4>
+            <p>No incense or apps required how to start a mindfulness practice in five minutes a day.</p>
+            <button type="button" class="btn-read-article" data-bs-toggle="modal" data-bs-target="#article-3">
+              Read Article <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </article>
+
+        <article class="article-card" data-category="sleep" data-title="Why Sleep and Mental Health Are Deeply Connected">
+          <div class="article-thumb thumb-sleep"><i class="fas fa-moon"></i></div>
+          <div class="article-card-body">
+            <div class="article-meta">
+              <span class="article-tag tag-sleep">Sleep</span>
+              <span class="article-time"><i class="fas fa-clock"></i> 5 min read</span>
+            </div>
+            <h4>Why Sleep and Mental Health Are Deeply Connected</h4>
+            <p>How poor sleep and low mood feed each other and small habits that can help break the cycle.</p>
+            <button type="button" class="btn-read-article" data-bs-toggle="modal" data-bs-target="#article-4">
+              Read Article <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </article>
+
+        <article class="article-card" data-category="coping" data-title="Healthy Coping Strategies When Everything Feels Like Too Much">
+          <div class="article-thumb thumb-coping"><i class="fas fa-heart-pulse"></i></div>
+          <div class="article-card-body">
+            <div class="article-meta">
+              <span class="article-tag tag-coping">Coping Strategies</span>
+              <span class="article-time"><i class="fas fa-clock"></i> 4 min read</span>
+            </div>
+            <h4>Healthy Coping Strategies When Everything Feels Like Too Much</h4>
+            <p>Practical, judgment-free ways to get through an overwhelming day, one step at a time.</p>
+            <button type="button" class="btn-read-article" data-bs-toggle="modal" data-bs-target="#article-5">
+              Read Article <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </article>
+
+        <article class="article-card" data-category="coping" data-title="Building a Simple Daily Routine That Supports Your Mood">
+          <div class="article-thumb thumb-coping2"><i class="fas fa-list-check"></i></div>
+          <div class="article-card-body">
+            <div class="article-meta">
+              <span class="article-tag tag-coping">Coping Strategies</span>
+              <span class="article-time"><i class="fas fa-clock"></i> 3 min read</span>
+            </div>
+            <h4>Building a Simple Daily Routine That Supports Your Mood</h4>
+            <p>You don't need a perfect schedule just a few anchors that make hard days easier to get through.</p>
+            <button type="button" class="btn-read-article" data-bs-toggle="modal" data-bs-target="#article-6">
+              Read Article <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </article>
+
+      </div>
+
+      <p class="articles-empty" id="articles-empty" style="display:none;">
+        No articles match your search. Try a different keyword or filter.
+      </p>
+
+    </div>
+  </div>
+</main>
+
+<!-- ///////////////////////////////////////////// Artice Detail /////////////////////////////////////// -->
+
+<div class="modal fade article-modal" id="article-1" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><span class="article-tag tag-anxiety me-2">Anxiety</span>5 Grounding Techniques for Anxiety in the Moment</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>When anxiety spikes, your body often reacts before your mind catches up a racing heart, shallow breathing, a flood of "what ifs." Grounding techniques work by gently pulling your attention back to the present moment, where the danger your body is reacting to usually isn't actually there.</p>
+        <p><strong>1. The 5-4-3-2-1 method.</strong> Name 5 things you can see, 4 things you can feel or touch, 3 things you can hear, 2 things you can smell, and 1 thing you can taste. It sounds simple, but it interrupts the anxious spiral by giving your brain a concrete task.</p>
+        <p><strong>2. Slow Your Breathing.</strong> Breathe in gently through your nose., hold for 4, Breathe out slowly and comfortably. Repeat for a minute or two. Keep your attention on the sensation of breathing rather than trying to force yourself to relax.</p>
+        <p><strong>3. Cold water on your wrists.</strong> A quick burst of cold sensation can help snap you out of a panic spiral by engaging your body's natural calming reflex.</p>
+        <p><strong>4. Focus on One Object.</strong> Choose an object near you a pen, watch, phone, key, or piece of clothing.Study it carefully: What colour is it? What shape is it? What texture does it have? Is it warm or cool? How heavy does it feel?</p>
+        <p><strong>5. Feel Your Feet on the Ground.</strong> Sit or stand comfortably and focus on the physical sensation of your feet against the floor. The pressure beneath your feet, The texture or temperature of the floor, How your weight is distributed, The feeling of your shoes or socks.</p>
+        <p>Take a slow breath while keeping your attention on these sensations. This can give your attention a concrete physical point in the present moment.</p>
+      </div>
+      <div class="modal-footer article-modal-footer">
+        <a href="assessment.html" class="btn-crisis-secondary"><i class="fas fa-clipboard-list"></i> Take the PHQ-9 Screening</a>
+        <a href="chatbot.html" class="btn-crisis-call"><i class="fas fa-comment-dots"></i> Talk to the Chatbot</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade article-modal" id="article-2" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><span class="article-tag tag-depression me-2">Depression</span>Understanding Depression: Signs, Myths, and Small Steps Forward</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Depression is often misunderstood as simply "feeling sad." In reality, it can show up as a persistent low mood, loss of interest in things you used to enjoy, fatigue, changes in sleep or appetite, trouble concentrating, or a sense of hopelessness that doesn't lift on its own.</p>
+        <p><strong>Myth: "Just think positive."</strong> Depression isn't a mindset problem you can will away it involves real changes in brain chemistry and often needs proper support to shift.</p>
+        <p><strong>Myth: "It only affects people going through something bad."</strong> Depression can appear even when life looks fine on the outside. There doesn't need to be an obvious "reason."</p>
+        <p><strong>Small steps that genuinely help:</strong> Keeping a consistent sleep and wake time, getting a little sunlight or fresh air each day, staying connected to at least one person, and breaking tasks into very small pieces so they feel achievable.</p>
+        <p>These steps support treatment they aren't a replacement for it. If low mood has lasted more than two weeks or is affecting your daily life, please consider taking our PHQ-9 screening or speaking with a licensed psychologist.</p>
+      </div>
+      <div class="modal-footer article-modal-footer">
+        <a href="assessment.html" class="btn-crisis-secondary"><i class="fas fa-clipboard-list"></i> Take the PHQ-9 Screening</a>
+        <a href="psychologists.html" class="btn-crisis-call"><i class="fas fa-user-md"></i> Find a Psychologist</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade article-modal" id="article-3" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><span class="article-tag tag-mindfulness me-2">Mindfulness</span>A Beginner's Guide to Mindfulness Meditation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Mindfulness is simply the practice of paying attention to the present moment, on purpose, without judging what you notice. You don't need any equipment, a quiet retreat, or thirty minutes you don't have.</p>
+        <p><strong>Try this two-minute practice:</strong> Sit comfortably and close your eyes if that feels okay, notice five natural breaths without trying to change them. When your mind wanders and it will just gently notice that, and bring your attention back to your breath, that's it. The "success" isn't an empty mind it's the act of noticing and returning.</p>
+        <p><strong>Mindful moments during the day:</strong> Really tasting your first sip of tea, feeling your feet on the ground while you wait in line, or noticing the sounds in the room right now. These tiny pauses add up.</p>
+        <p>Consistency matters more than duration two minutes daily builds the habit better than twenty minutes once a week.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade article-modal" id="article-4" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><span class="article-tag tag-sleep me-2">Sleep</span>Why Sleep and Mental Health Are Deeply Connected</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Sleep and mental health influence each other in both directions: poor sleep can worsen anxiety and low mood, and anxiety or low mood can make it harder to sleep well, Breaking into that cycle from either side can help.</p>
+        <p><strong>Keep a consistent schedule.</strong> Going to bed and waking up at roughly the same time even on weekends helps regulate your body's internal clock more than the total number of hours alone.</p>
+        <p><strong>Wind down before bed.</strong> Dim the lights, put screens away 30-60 minutes before sleep, and do something calm reading, stretching, or quiet music.</p>
+        <p><strong>Watch caffeine timing.</strong> Caffeine can affect sleep quality up to 6-8 hours after you drink it, even if you don't feel "wired."</p>
+        <p><strong>If your mind races at night,</strong> try keeping a notepad by your bed to jot down tomorrow's worries it gives your brain permission to let them go until morning.</p>
+        <p>If sleep problems persist for weeks despite good habits, it's worth mentioning to a doctor or psychologist sleep is too important to your wellbeing to leave unaddressed.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade article-modal" id="article-5" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><span class="article-tag tag-coping me-2">Coping Strategies</span>Healthy Coping Strategies When Everything Feels Like Too Much</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>When stress piles up, it's easy to reach for whatever numbs it fastest but some coping habits help in the moment and cost you later. Here are a few that hold up over time.</p>
+        <p><strong>Name what's actually in your control.</strong> Overwhelm often comes from trying to hold everything at once. Write down what you're worried about, then circle only the parts you can actually act on today.</p>
+        <p><strong>Take a "just this one thing" approach.</strong> Instead of tackling the whole list, pick the single smallest next step and do just that.</p>
+        <p><strong>Let yourself pause without guilt.</strong> A 10-minute break isn't laziness it's often what lets you keep going for the rest of the day.</p>
+        <p><strong>Reach out before you're at your limit.</strong> You don't have to wait until things feel unbearable before asking for support. Reaching out early to someone you trust, texting a friend, calling a helpline, or talking to our chatbot doesn't require a crisis checking in early is a form of self-care too.</p>
+      </div>
+      <div class="modal-footer article-modal-footer">
+        <a href="chatbot.html" class="btn-crisis-secondary"><i class="fas fa-comment-dots"></i> Talk to the Chatbot</a>
+        <a href="crisis-helpline.html" class="btn-crisis-call"><i class="fas fa-phone"></i> Crisis Helplines</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade article-modal" id="article-6" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><span class="article-tag tag-coping me-2">Coping Strategies</span>Building a Simple Daily Routine That Supports Your Mood</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>When mood is low, motivation often disappears first which makes "just build better habits" easier said than done. The trick isn't a perfect routine; it's a few small, repeatable anchors.</p>
+        <p><strong>Pick one anchor for morning, midday, and evening.</strong> For example: open the curtains when you wake up, step outside for five minutes at lunch, and put your phone away 20 minutes before bed. Three small anchors are easier to keep than one big plan.</p>
+        <p><strong>Attach new habits to ones you already do.</strong> Make new habits easier to maintain by connecting them to routines you already follow. Instead of creating a completely separate routine, add a small new behaviour immediately before or after something you already do regularly like after brushing your teeth at night, spend two minutes writing down three things you are grateful for. Over time, the existing routine can serve as a reminder for the new habit.</p>
+        <p><strong>Expect imperfect days.</strong> Missing a day doesn't undo your progress. The goal is a routine you can return to, not one you never break.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- //////////////////////////////////////////// Footer ////////////////////////////////////// -->
+
+<footer class="footer">
+  <div class="container">
+
+      <div class="row gy-4">
+        <div class="col-lg-4">
+          <div class="footer-brand"><i class="fas fa-brain me-2"></i>NEXORA</div>
+          <p>A mental health screening and support platform. We're here whenever you need a caring presence.</p>
+        </div>
+        <div class="col-lg-2 col-6">
+          <p style="color:rgba(255,255,255,.7); font-weight:600; margin-bottom:.75rem;">Navigation</p>
+          <div class="d-flex flex-column gap-2">
+            <a href="index.html" class="footer-link" data-page="home">Home</a>
+            <a href="assessment.html" class="footer-link" data-page="assessment">Take Test</a>
+            <a href="chatbot.html" class="footer-link" data-page="chatbot">Chatbot</a>
+            <a href="psychologists.html" class="footer-link" data-page="psychologists">psychologists</a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <p style="color:rgba(255,255,255,.7); font-weight:600; margin-bottom:.75rem;">Resources</p>
+          <div class="d-flex flex-column gap-2">
+            <a href="crisis-helpline.html" class="footer-link">Crisis Helpline</a>
+            <a href="articles.html" class="footer-link">Self-Help Articles</a>
+            <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
+            <a href="terms-of-use.html" class="footer-link">Terms of Use</a>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <p style="color:rgba(255,255,255,.7); font-weight:600; margin-bottom:.75rem;">Get in Touch for Support</p>
+          <p style="font-size:.85rem;"><i class="fas fa-envelope me-2" style="color:var(--teal-light)"></i>nexorahealthcare41@gmail.com</p>
+          <p style="font-size:.85rem;"><i class="fas fa-map-marker-alt me-2" style="color:var(--teal-light)"></i>Available in Pakistan</p>
+          <div class="d-flex gap-3 mt-3">
+            <a href="https://www.facebook.com/share/p/19oHqh7UmR/" class="footer-link" style="font-size:1.1rem;"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com/nexor_ahealthcare?stkn=d25pcmM5bmhqZmlo&utm_source=qr" class="footer-link" style="font-size:1.1rem;"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.threads.com/@nexor_ahealthcare" class="footer-link" style="font-size:1.1rem;"><i class="fab fa-threads"></i></a>
+          </div>
+        </div>
+      </div>
+      <hr class="mt-4 mb-3" />
+      <div class="footer-copy">
+         This tool is for informational purposes only and does not constitute medical diagnosis.
+      </div>
+    </div>
+  </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/script.js"></script>
+
+<!-- ////////////////////////////// search + filter for the article grid  ///////////////// -->
+<script>
+  (function () {
+    const searchInput = document.getElementById('article-search');
+    const filterBar = document.getElementById('article-filters');
+    const cards = Array.from(document.querySelectorAll('.article-card'));
+    const emptyMsg = document.getElementById('articles-empty');
+    let activeFilter = 'all';
+
+             function applyFilters() {
+      const query = (searchInput.value || '').trim().toLowerCase();
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const matchesCategory = activeFilter === 'all' || card.dataset.category === activeFilter;
+        const matchesSearch = !query || card.dataset.title.toLowerCase().includes(query);
+        const show = matchesCategory && matchesSearch;
+        card.style.display = show ? '' : 'none';
+        if (show) visibleCount++;
+      });
+
+      emptyMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+
+    filterBar.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        filterBar.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        activeFilter = chip.dataset.filter;
+        applyFilters();
+      });
+    });
+
+    searchInput.addEventListener('input', applyFilters);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Appointment | NEXORA</title>
+
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  
+  <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    
+    .booking-page { background: var(--off-white); min-height: 100vh; padding: 2.5rem 0 4rem; }
+    
+    .doctor-summary-bar {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 1.25rem 1.75rem; display: flex; align-items: center; gap: 1.25rem;
+      margin-bottom: 2rem; box-shadow: var(--shadow-sm);
+    }
+    .doctor-summary-avatar {
+      width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--teal-pale), var(--teal-light));
+      display: flex; align-items: center; justify-content: center; font-family: var(--font-head);
+      font-size: 1.35rem; font-weight: 700; color: var(--teal); flex-shrink: 0;
+    }
+    .doctor-summary-info { flex: 1; }
+    .doctor-summary-name { font-family: var(--font-head); font-size: 1.15rem; font-weight: 700; color: var(--text-dark); margin-bottom: .15rem; }
+    .doctor-summary-spec { font-size: .82rem; color: var(--teal); font-weight: 600; }
+    .doctor-summary-meta { font-size: .78rem; color: var(--text-soft); margin-top: .2rem; }
+
+    .booking-steps {
+      display: flex; align-items: center; gap: 0; margin-bottom: 2rem;
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 1rem 1.5rem; box-shadow: var(--shadow-xs);
+    }
+    .bstep { display: flex; align-items: center; gap: .6rem; flex: 1; position: relative; }
+    .bstep-num {
+      width: 32px; height: 32px; border-radius: 50%; background: var(--border); color: var(--text-soft);
+      font-size: .8rem; font-weight: 700; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; z-index: 1; position: relative; transition: all .3s ease;
+    }
+    .bstep.active .bstep-num  { background: var(--teal); color: #fff; }
+    .bstep.done   .bstep-num  { background: var(--green); color: #fff; }
+    .bstep-label { font-size: .78rem; font-weight: 600; color: var(--text-soft); transition: color .3s; }
+    .bstep.active .bstep-label { color: var(--teal); }
+    .bstep.done   .bstep-label { color: var(--green); }
+
+    .booking-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-md); overflow: hidden; }
+    .booking-card-header { background: linear-gradient(135deg, var(--teal), #1d7a6e); padding: 1.25rem 1.75rem; color: #fff; }
+    .booking-card-header h5 { color: #fff; font-family: var(--font-head); font-size: 1.1rem; margin: 0; }
+    .booking-card-header p { color: rgba(255,255,255,.75); font-size: .8rem; margin: .25rem 0 0; }
+    .booking-card-body { padding: 1.75rem; }
+
+    /* Calendar Styling */
+    .cal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+    .cal-nav-btn {
+      background: var(--teal-pale); border: none; width: 36px; height: 36px; border-radius: 50%;
+      color: var(--teal); font-size: .9rem; cursor: pointer; transition: background .2s, color .2s;
+    }
+    .cal-nav-btn:hover { background: var(--teal); color: #fff; }
+    .cal-nav-btn:disabled { opacity: .35; cursor: not-allowed; }
+    .cal-month-label { font-family: var(--font-head); font-size: 1.05rem; font-weight: 700; color: var(--text-dark); }
+
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+    .cal-day-header { text-align: center; font-size: .7rem; font-weight: 700; color: var(--text-soft); padding: .35rem 0; text-transform: uppercase; letter-spacing: .04em; }
+    .cal-day {
+      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      border-radius: 10px; font-size: .85rem; font-weight: 500; cursor: pointer;
+      transition: all .18s ease; border: 2px solid transparent; color: var(--text-dark); background: transparent;
+    }
+    .cal-day:hover:not(.disabled):not(.empty) { background: var(--teal-pale); border-color: var(--teal-light); color: var(--teal); }
+    .cal-day.today { border-color: var(--teal-light); background: var(--teal-pale); color: var(--teal); font-weight: 700; }
+    .cal-day.selected { background: var(--teal) !important; color: #fff !important; border-color: var(--teal) !important; font-weight: 700; }
+    .cal-day.disabled, .cal-day.empty { color: #ccc; cursor: default; pointer-events: none; }
+
+    /* ---------------For the time Slots--------------- */
+    #step-time { display: none; }
+    .time-section-label {
+      font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+      color: var(--text-soft); margin-bottom: .6rem; margin-top: 1rem;
+    }
+    .time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: .5rem; }
+    @media (max-width: 480px) { .time-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .time-slot {
+      padding: .55rem .4rem; border-radius: 10px; border: 2px solid var(--border);
+      text-align: center; font-size: .78rem; font-weight: 600; cursor: pointer;
+      transition: all .18s; background: #fff; color: var(--text-dark); position: relative;
+    }
+    .time-slot:hover:not(.booked) { border-color: var(--teal); background: var(--teal-pale); color: var(--teal); }
+    .time-slot.selected { background: var(--teal); border-color: var(--teal); color: #fff; }
+    .time-slot.booked { background: #fff0f0; border-color: #f5c0c0; color: #e07070; cursor: not-allowed; text-decoration: line-through; }
+    .time-slot.booked::after { content: '●'; position: absolute; top: 3px; right: 5px; font-size: .45rem; color: #e07070; }
+
+    /* Patient Form Styling */
+    #step-details { display: none; }
+    .form-label-booking { font-size: .8rem; font-weight: 600; color: var(--text-mid); margin-bottom: .35rem; }
+    .form-input-booking {
+      width: 100%; padding: .65rem 1rem; border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+      font-family: var(--font-body); font-size: .88rem; color: var(--text-dark); background: #fff;
+      transition: border-color .2s, box-shadow .2s; outline: none;
+    }
+    .form-input-booking:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(43,143,128,.12); }
+    .form-group-booking { margin-bottom: 1rem; }
+
+    .booking-summary { background: var(--teal-xpale); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
+    .booking-summary-title { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--teal); margin-bottom: .6rem; }
+    .booking-summary-row { display: flex; align-items: center; gap: .6rem; font-size: .83rem; color: var(--text-mid); margin-bottom: .35rem; }
+    .booking-summary-row i { color: var(--teal); width: 16px; flex-shrink: 0; }
+    .booking-summary-row strong { color: var(--text-dark); }
+
+    
+    #step-confirm { display: none; }
+    .confirm-wrap { text-align: center; padding: 1rem 0 .5rem; }
+    .confirm-icon {
+      width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #e8f7ef, #c8eedd);
+      display: flex; align-items: center; justify-content: center; font-size: 2rem;
+      color: var(--green); margin: 0 auto 1.25rem; animation: popIn .5s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .confirm-title { font-family: var(--font-head); font-size: 1.4rem; color: var(--text-dark); margin-bottom: .5rem; }
+    .confirm-sub { color: var(--text-soft); font-size: .88rem; max-width: 360px; margin: 0 auto 1.5rem; line-height: 1.6; }
+    .confirm-detail-box { background: var(--teal-xpale); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem 1.5rem; text-align: left; margin-bottom: 1.5rem; }
+    .confirm-row { display: flex; gap: .75rem; align-items: center; font-size: .84rem; color: var(--text-mid); padding: .4rem 0; border-bottom: 1px solid var(--border-light); }
+    .confirm-row:last-child { border-bottom: none; }
+    .confirm-row i { color: var(--teal); width: 18px; flex-shrink: 0; }
+    .confirm-row strong { color: var(--text-dark); margin-left: auto; text-align: right; }
+
+    .email-status { display: inline-flex; align-items: center; gap: .4rem; font-size: .75rem; font-weight: 600; padding: .3rem .75rem; border-radius: 50px; margin: 0 .25rem; }
+    .email-status.sending { background: #fff8e6; color: #b07000; border: 1px solid #f0d070; }
+    .email-status.sent    { background: #e8f7ef; color: #1a7a58; border: 1px solid #a8e0c4; }
+    .email-status.failed  { background: #fff0f0; color: #c0392b; border: 1px solid #f5c0c0; }
+
+    .btn-booking-primary {
+      background: linear-gradient(135deg, var(--teal), #1d7a6e);
+      color: #fff; border: none; padding: .75rem 2rem; border-radius: var(--radius-sm);
+      font-family: var(--font-body); font-size: .9rem; font-weight: 600; cursor: pointer;
+      transition: opacity .2s, transform .15s; display: inline-flex; align-items: center; gap: .5rem;
+    }
+    .btn-booking-primary:hover { opacity: .9; transform: translateY(-1px); }
+    .btn-booking-primary:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+    .btn-booking-outline {
+      background: transparent; color: var(--teal);
+      border: 1.5px solid var(--teal); padding: .75rem 1.5rem; border-radius: var(--radius-sm);
+      font-family: var(--font-body); font-size: .9rem; font-weight: 600; cursor: pointer;
+      transition: all .2s; display: inline-flex; align-items: center; gap: .5rem;
+    }
+    .btn-booking-outline:hover { background: var(--teal-pale); }
+
+    .spinner-sm { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; display: inline-block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .section-divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+    .selected-date-display { background: var(--teal); color: #fff; border-radius: var(--radius-sm); padding: .75rem 1rem; text-align: center; margin-bottom: 1.25rem; font-size: .88rem; font-weight: 600; }
+    .booking-note { background: #fffbec; border: 1px solid #f5e5a0; border-radius: var(--radius-xs); padding: .65rem 1rem; font-size: .76rem; color: #8a6800; margin-top: 1rem; }
+    .booking-note i { margin-right: .4rem; }
+  </style>
+</head>
+<body>
+  <!-- ////////////////////////////////// Navbar /////////////////////////// -->
+  <nav class="navbar-custom">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg p-0" style="width:100%; background:transparent;">
+        <a class="navbar-brand" href="index.html">
+          <span class="brand-icon"><i class="fas fa-brain"></i></span>
+          MENTAL HEALTH RISK PREDICTION AND GUIDANCE SYSTEM
+        </a>
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+            <li class="nav-item"><a class="nav-link nav-link-custom" href="index.html"><i class="fas fa-home me-1"></i>Home</a></li>
+            <li class="nav-item"><a class="nav-link nav-link-custom" href="assessment.html"><i class="fas fa-clipboard-list me-1"></i>Take Test</a></li>
+            <li class="nav-item"><a class="nav-link nav-link-custom" href="chatbot.html"><i class="fas fa-comment-dots me-1"></i>Chatbot</a></li>
+            <li class="nav-item"><a class="nav-link nav-link-custom active" href="psychologists.html"><i class="fas fa-user-md me-1"></i>Psychologists</a></li>
+            <li class="nav-item" id="nav-admin-link" style="display:none;"><a class="nav-link nav-link-custom" href="admin.html"><i class="fas fa-shield-halved me-1"></i>Admin</a></li>
+
+<li class="nav-item ms-lg-2" id="nav-login-btn">
+  <a class="nav-link btn-nav-login" href="auth.html" data-page="login">
+    <i class="fas fa-sign-in-alt me-1"></i>Login
+  </a>
+</li>
+
+<li class="nav-item ms-lg-2" id="nav-logout-btn" style="display: none;">
+  <button type="button" onclick="logout()" class="nav-link btn-nav-login border-0 bg-danger text-white px-3 rounded" style="cursor: pointer;">
+    <i class="fas fa-sign-out-alt me-1"></i>Logout
+  </button>
+</li>          </ul>
+        </div>
+      </nav>
+    </div>
+  </nav>
+
+  <main>
+    <div class="booking-page">
+      <div class="container" style="max-width: 680px;">
+        <div class="text-center mb-4">
+          <span class="section-tag"><i class="fas fa-calendar-check me-1"></i>Book Appointment</span>
+          <h2 class="section-title" style="font-size:1.75rem;">Schedule Your Session</h2>
+          <p class="section-sub">Choose your preferred date and time confirmations are sent instantly.</p>
+        </div>
+
+        <!-- --------------------Header for the Selected Doctor Profile---------------------- -->
+        <div class="doctor-summary-bar" id="doctor-summary-bar">
+          <div class="doctor-summary-avatar" id="doc-avatar-initials">?</div>
+          <div class="doctor-summary-info">
+            <div class="doctor-summary-name" id="doc-display-name">Loading…</div>
+            <div class="doctor-summary-spec" id="doc-display-spec"></div>
+            <div class="doctor-summary-meta" id="doc-display-meta"></div>
+          </div>
+          <a href="psychologists.html" class="btn-booking-outline" style="padding:.45rem 1rem; font-size:.78rem;">
+            <i class="fas fa-arrow-left"></i> Back
+          </a>
+        </div>
+
+        <div class="booking-steps">
+          <div class="bstep active" id="bstep-1">
+            <div class="bstep-num">1</div><div class="bstep-label">Pick Date</div>
+          </div>
+          <div style="flex:1; height:2px; background:var(--border); margin:0 .5rem;"></div>
+          <div class="bstep" id="bstep-2"><div class="bstep-num">2</div><div class="bstep-label">Pick Time</div></div>
+          <div style="flex:1; height:2px; background:var(--border); margin:0 .5rem;"></div>
+          <div class="bstep" id="bstep-3"><div class="bstep-num">3</div><div class="bstep-label">Your Info</div></div>
+          <div style="flex:1; height:2px; background:var(--border); margin:0 .5rem;"></div>
+          <div class="bstep" id="bstep-4"><div class="bstep-num">4</div><div class="bstep-label">Confirmed</div></div>
+        </div>
+
+        <div class="booking-card" id="step-calendar">
+          <div class="booking-card-header">
+            <h5><i class="fas fa-calendar-alt me-2"></i>Select a Date</h5>
+            <p>Choose any available day weekends and past dates are unavailable.</p>
+          </div>
+          <div class="booking-card-body">
+            <div class="cal-nav">
+              <button class="cal-nav-btn" id="cal-prev" aria-label="Previous month"><i class="fas fa-chevron-left"></i></button>
+              <div class="cal-month-label" id="cal-month-label">Month Year</div>
+              <button class="cal-nav-btn" id="cal-next" aria-label="Next month"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="cal-grid" id="cal-grid"></div>
+            <div class="booking-note">
+              <i class="fas fa-info-circle"></i>
+              Appointments are Mon-Fri only. Each slot is 45 minutes.
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-card" id="step-time">
+          <div class="booking-card-header">
+            <h5><i class="fas fa-clock me-2"></i>Select a Time Slot</h5>
+            <p>Red slots are already booked.</p>
+          </div>
+          <div class="booking-card-body">
+            <div class="selected-date-display" id="selected-date-display">
+              <i class="fas fa-calendar-check me-2"></i>
+              <span id="selected-date-label"></span>
+            </div>
+
+            <div class="time-section-label">Morning</div>
+            <div class="time-grid" id="morning-slots"></div>
+
+            <div class="time-section-label">Afternoon</div>
+            <div class="time-grid" id="afternoon-slots"></div>
+
+            <div class="booking-note">
+              <i class="fas fa-lock"></i>
+              Slots shown in <span style="color:#e07070; font-weight:700;">red</span> are booked.
+            </div>
+
+            <hr class="section-divider" />
+            <div class="d-flex gap-2">
+              <button class="btn-booking-outline" onclick="goBackToCalendar()">
+                <i class="fas fa-arrow-left"></i> Change Date
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-card" id="step-details">
+          <div class="booking-card-header">
+            <h5><i class="fas fa-user-edit me-2"></i>Your Information</h5>
+            <p>We'll use this to send your confirmation emails.</p>
+          </div>
+          <div class="booking-card-body">
+            <div class="booking-summary">
+              <div class="booking-summary-title"><i class="fas fa-clipboard-check me-1"></i>Appointment Summary</div>
+              <div class="booking-summary-row"><i class="fas fa-user-md"></i> Doctor: <strong id="sum-doctor"></strong></div>
+              <div class="booking-summary-row"><i class="fas fa-calendar"></i> Date: <strong id="sum-date"></strong></div>
+              <div class="booking-summary-row"><i class="fas fa-clock"></i> Time: <strong id="sum-time"></strong></div>
+              <div class="booking-summary-row"><i class="fas fa-hourglass-half"></i> Duration: <strong>45 minutes</strong></div>
+            </div>
+
+            <div class="form-group-booking">
+              <label class="form-label-booking">Full Name *</label>
+              <input type="text" id="patient-name" class="form-input-booking" placeholder="Your full name" autocomplete="name" />
+            </div>
+            <div class="form-group-booking">
+              <label class="form-label-booking">Email Address * <span style="font-size:.72rem; color:var(--text-soft); font-weight:400;">(confirmation will be sent here)</span></label>
+              <input type="email" id="patient-email" class="form-input-booking" placeholder="you@example.com" autocomplete="email" />
+            </div>
+            <div class="form-group-booking">
+              <label class="form-label-booking">Phone Number <span style="font-size:.72rem; color:var(--text-soft); font-weight:400;">(optional)</span></label>
+              <input type="tel" id="patient-phone" class="form-input-booking" placeholder="+92 300 0000000" autocomplete="tel" />
+            </div>
+            <div class="form-group-booking">
+              <label class="form-label-booking">Reason for Visit <span style="font-size:.72rem; color:var(--text-soft); font-weight:400;">(optional)</span></label>
+              <textarea id="patient-reason" class="form-input-booking" rows="3" placeholder="Brief description of what you'd like to discuss…" style="resize:vertical;"></textarea>
+            </div>
+
+            <div id="form-error" style="display:none; color:#c0392b; font-size:.82rem; margin-bottom:.75rem;"></div>
+
+            <div class="d-flex gap-2 flex-wrap">
+              <button class="btn-booking-outline" onclick="goBackToTime()">
+                <i class="fas fa-arrow-left"></i> Change Time
+              </button>
+              <button class="btn-booking-primary" id="confirm-btn" onclick="confirmBooking()">
+                <i class="fas fa-check"></i> Confirm Appointment
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-card" id="step-confirm">
+          <div class="booking-card-body">
+            <div class="confirm-wrap">
+              <div class="confirm-icon"><i class="fas fa-check"></i></div>
+              <h3 class="confirm-title">Appointment Confirmed!</h3>
+              <p class="confirm-sub">Your booking is locked in. Confirmation emails are being sent.</p>
+
+              <div class="mb-3" id="email-status-area">
+                <span class="email-status sending" id="patient-email-status"><span class="spinner-sm"></span> Sending patient email…</span>
+                <span class="email-status sending" id="doctor-email-status"><span class="spinner-sm"></span> Sending doctor email…</span>
+              </div>
+
+              <div class="confirm-detail-box" id="confirm-details"></div>
+
+              <div class="d-flex gap-2 justify-content-center flex-wrap">
+                <a href="psychologists.html" class="btn-booking-outline"><i class="fas fa-user-md"></i> Find Another Doctor</a>
+                <a href="index.html" class="btn-booking-primary"><i class="fas fa-home"></i> Back to Home</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-copy">&copy; 2026 NEXORA AI Mental Health Platform.</div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  
+  <script>
+    // 1. EMAILJS CONFIGURATION
+    const EMAILJS_CONFIG = {
+      publicKey:         'PB5o0DpVSkOniGsre',
+      serviceId:         'service_9ewdp9d',
+      patientTemplateId: 'template_cf3ocw3',
+      doctorTemplateId:  'template_qhuwqcz',
+    };
+
+    // 2. DOCTOR DATABASE (UPDATED FROM FRONTEND CARDS)
+    const DOCTORS = {
+      'sadia-yasir': { 
+        name: 'Dr. Sadia Yasir',     
+        spec: 'Consultant psychologist', 
+        initials: 'SY', 
+        email: 'sadiayasir.sc@gmail.com', 
+        color: 'linear-gradient(135deg, #e8f5e9, #c8eedd)', 
+        textColor: '#2e7d32', 
+        slots: { start: 9, end: 17 }, 
+        location: 'Jinnah Hospital Lahore, Pakistan' 
+      },
+      'aqila-unbrin': { 
+        name: 'Ms. Aqila Unbrin',  
+        spec: 'Principal clinical psychology', 
+        initials: 'AU', 
+        email: 'aqila127.romi@gmail.com', 
+        color: 'linear-gradient(135deg, #e8f4f8, #c3d9fb)', 
+        textColor: '#3a6bc4', 
+        slots: { start: 10, end: 18 }, 
+        location: 'PIMH Lahore, Pakistan' 
+      },
+      'yasmeen-naeem': { 
+        name: 'Dr. Yasmeen Naeem',     
+        spec: 'Principal Psychologist', 
+        initials: 'YN', 
+        email: 'yasmeen.naeem@example.com', 
+        color: 'linear-gradient(135deg, #fff3e0, #fbd5bc)', 
+        textColor: '#e65100', 
+        slots: { start: 9, end: 16 }, 
+        location: 'Lahore, Pakistan' 
+      },
+      'junaid-rasool': { 
+        name: 'Dr. Junaid rasool',       
+        spec: 'Consultant Psychologist', 
+        initials: 'JR', 
+        email: 'junaid.rasool@example.com', 
+        color: 'linear-gradient(135deg, #f3e8ff, #d8c3f5)', 
+        textColor: '#7b3fa8', 
+        slots: { start: 11, end: 19 }, 
+        location: 'FMH Lahore, Pakistan' 
+      },
+      'alina': { 
+        name: 'Dr. Alina',
+        spec: 'Child Psychologist', 
+        initials: 'DR', 
+        email: 'alina@example.com', 
+        color: 'linear-gradient(135deg, #e0f2f1, #aee8d8)', 
+        textColor: '#1a7a58', 
+        slots: { start: 9, end: 17 }, 
+        location: 'PIMH Lahore, Pakistan' 
+      },
+      'saima-batool': { 
+        name: 'Dr Saima Batool',     
+        spec: 'Consultant Psychologist', 
+        initials: 'SM', 
+        email: 'saima.batool@example.com', 
+        color: 'linear-gradient(135deg, #fce4ec, #ffc3d9)', 
+        textColor: '#c0395a', 
+        slots: { start: 10, end: 17 }, 
+        location: 'FMH Lahore, Pakistan' 
+      }
+    };
+
+    const SLOT_DURATION = 45; 
+    const BUFFER_MINUTES = 15;
+
+    emailjs.init(EMAILJS_CONFIG.publicKey);
+
+    let currentDoctor = null;
+    let calendarDate  = new Date();
+    let selectedDate  = null;
+    let selectedTime  = null;
+
+    function bookingDoctorSlug(name) {
+      return String(name || '')
+        .toLowerCase()
+        .replace(/^(dr\.?|ms\.?|mr\.?|mrs\.?)\s+/, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '');
+    }
+
+    function bookingDoctorInitials(name) {
+      const words = String(name || '?').trim().split(/\s+/);
+      if (/^(dr\.?|ms\.?|mr\.?|mrs\.?)$/i.test(words[0])) words.shift();
+      return words.slice(0, 2).map(word => word[0]).join('').toUpperCase() || '?';
+    }
+
+    function findLegacyDoctor(name) {
+      const slug = bookingDoctorSlug(name);
+      return Object.keys(DOCTORS).reduce((match, key) => match || (key === slug ? DOCTORS[key] : null), null) || {};
+    }
+
+    async function loadDoctorFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const doctorQuery = urlParams.get('doctor') || urlParams.get('id');
+      if (!doctorQuery) {
+        window.location.replace('psychologists.html');
+        return false;
+      }
+
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/psychologists');
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.message || 'Unable to load psychologist profile.');
+
+        const profiles = data.psychologists || [];
+        const profile = profiles.find(item =>
+          String(item.id) === String(doctorQuery) ||
+          bookingDoctorSlug(item.full_name || item.name) === String(doctorQuery).toLowerCase()
+        );
+        if (!profile) {
+          window.location.replace('psychologists.html');
+          return false;
+        }
+
+        const name = profile.full_name || profile.name || 'Psychologist';
+        const legacy = findLegacyDoctor(name);
+        const startHour = Number(profile.available_start ?? legacy.slots?.start ?? 9);
+        const endHour = Number(profile.available_end ?? legacy.slots?.end ?? 17);
+        currentDoctor = {
+          _id: String(profile.id || doctorQuery),
+          name,
+          spec: profile.specialization || legacy.spec || 'Mental health professional',
+          initials: bookingDoctorInitials(name),
+          email: profile.email || legacy.email || '',
+          contact: profile.contact || '',
+          color: legacy.color || 'linear-gradient(135deg, #e8f5e9, #c8eedd)',
+          textColor: legacy.textColor || '#2e7d32',
+          slots: { start: startHour, end: endHour },
+          location: profile.location || legacy.location || 'Available online'
+        };
+
+        document.getElementById('doc-avatar-initials').textContent = currentDoctor.initials;
+        document.getElementById('doc-avatar-initials').style.background = currentDoctor.color;
+        document.getElementById('doc-avatar-initials').style.color = currentDoctor.textColor;
+        document.getElementById('doc-display-name').textContent = currentDoctor.name;
+        document.getElementById('doc-display-spec').textContent = currentDoctor.spec;
+        document.getElementById('doc-display-meta').textContent =
+          currentDoctor.location + (currentDoctor.contact ? '  · ' + currentDoctor.contact : '') + '  · Available ' +
+          fmt12h(currentDoctor.slots.start + ':00') + ' - ' +
+          fmt12h(currentDoctor.slots.end + ':00');
+        return true;
+      } catch (error) {
+        console.error('Error loading psychologist profile:', error);
+        window.location.replace('psychologists.html');
+        return false;
+      }
+    }
+
+    const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+    function renderCalendar() {
+      const grid  = document.getElementById('cal-grid');
+      const label = document.getElementById('cal-month-label');
+
+      const today = new Date();
+      today.setHours(0,0,0,0);
+
+      const year  = calendarDate.getFullYear();
+      const month = calendarDate.getMonth();
+
+      label.textContent = MONTHS[month] + ' ' + year;
+
+      const prevBtn = document.getElementById('cal-prev');
+      const now = new Date();
+      now.setDate(1);
+      now.setHours(0,0,0,0);
+      const shown = new Date(year, month, 1);
+      prevBtn.disabled = shown <= now;
+
+      grid.innerHTML = '';
+
+      DAYS.forEach(d => {
+        const h = document.createElement('div');
+        h.className = 'cal-day-header';
+        h.textContent = d;
+        grid.appendChild(h);
+      });
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      for (let i = 0; i < firstDay; i++) {
+        const empty = document.createElement('div');
+        empty.className = 'cal-day empty';
+        grid.appendChild(empty);
+      }
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const dayEl = document.createElement('div');
+        const thisDay = new Date(year, month, d);
+        const dow = thisDay.getDay();
+        dayEl.className = 'cal-day';
+        dayEl.textContent = d;
+
+        const isPast = thisDay < today;
+        const isWeekend = dow === 0 || dow === 6;
+        const isToday = thisDay.getTime() === today.getTime();
+
+        if (isPast || isWeekend) {
+          dayEl.classList.add('disabled');
+        } else {
+          if (isToday) dayEl.classList.add('today');
+          if (selectedDate && thisDay.getTime() === selectedDate.getTime()) dayEl.classList.add('selected');
+          dayEl.addEventListener('click', () => selectDate(thisDay));
+        }
+
+        grid.appendChild(dayEl);
+      }
+    }
+
+    function selectDate(date) {
+      selectedDate = date;
+      selectedTime = null;
+      renderCalendar();
+      showTimeStep();
+    }
+
+    document.getElementById('cal-prev').addEventListener('click', () => {
+      calendarDate.setMonth(calendarDate.getMonth() - 1);
+      renderCalendar();
+    });
+    document.getElementById('cal-next').addEventListener('click', () => {
+      calendarDate.setMonth(calendarDate.getMonth() + 1);
+      renderCalendar();
+    });
+
+    function pad(n){ return String(n).padStart(2,'0'); }
+    function fmt12h(time24) {
+      const [hStr, mStr] = String(time24).split(':');
+      const h = Number(hStr);
+      const m = Number(mStr || 0);
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      const hour = h % 12 || 12;
+      return hour + ':' + pad(m) + ' ' + ampm;
+    }
+
+    // ////////////////// Generating array of the available time slot 
+    function generateSlots(startH, endH) {
+      const slots = [];
+      let h = startH, m = 0;
+      while (h < endH) {
+        const t = pad(h) + ':' + pad(m);
+        slots.push(t);
+        m += SLOT_DURATION;
+        if (m >= 60) { h += Math.floor(m/60); m = m % 60; }
+      }
+      return slots;
+    }
+
+    function slotKey(docId, date, time) {
+      const d = date.toISOString().slice(0,10);
+      return `nexora_booking__${docId}__${d}__${time}`;
+    }
+
+    function isSlotBooked(docId, date, time) {
+      const [h,m] = time.split(':').map(Number);
+      const slotMs = h*3600000 + m*60000;
+      const slotDurMs = SLOT_DURATION*60000;
+      const bufMs = BUFFER_MINUTES*60000;
+
+      const dayPrefix = `nexora_booking__${docId}__${date.toISOString().slice(0,10)}`;
+      const allKeys = Object.keys(localStorage).filter(k => k.startsWith(dayPrefix));
+
+      for (const key of allKeys) {
+        const val = JSON.parse(localStorage.getItem(key) || '{}');
+        if (!val.time) continue;
+        const [bh,bm] = val.time.split(':').map(Number);
+        const bookedMs = bh*3600000 + bm*60000;
+
+        if (slotMs >= bookedMs - bufMs && slotMs < bookedMs + slotDurMs + bufMs) return true;
+      }
+      return false;
+    }
+
+    function showTimeStep() {
+      document.getElementById('step-calendar').style.display = 'none';
+      document.getElementById('step-time').style.display = 'block';
+      document.getElementById('step-details').style.display = 'none';
+      document.getElementById('step-confirm').style.display = 'none';
+      setStep(2);
+
+      const dateLabel = selectedDate.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+      document.getElementById('selected-date-label').textContent = dateLabel;
+
+      const allSlots = generateSlots(currentDoctor.slots.start, currentDoctor.slots.end);
+      const morning = allSlots.filter(t => parseInt(t) < 12);
+      const afternoon = allSlots.filter(t => parseInt(t) >= 12);
+
+      renderSlots(morning, 'morning-slots');
+      renderSlots(afternoon, 'afternoon-slots');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderSlots(slots, containerId) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+
+      if (!slots.length) {
+        container.innerHTML = '<div style="color:var(--text-soft); font-size:.8rem; grid-column:1/-1;">None available in this period.</div>';
+        return;
+      }
+
+      slots.forEach(time => {
+        const btn = document.createElement('button');
+        const booked = isSlotBooked(currentDoctor._id, selectedDate, time);
+        btn.className = 'time-slot' + (booked ? ' booked' : '') + (time === selectedTime ? ' selected' : '');
+        btn.textContent = fmt12h(time);
+        btn.disabled = booked;
+
+        if (!booked) {
+          btn.addEventListener('click', () => {
+            selectedTime = time;
+            renderSlots(slots, containerId);
+
+            const allSlots = generateSlots(currentDoctor.slots.start, currentDoctor.slots.end);
+            const morning = allSlots.filter(t => parseInt(t) < 12);
+            const afternoon = allSlots.filter(t => parseInt(t) >= 12);
+            if (containerId === 'morning-slots') renderSlots(afternoon, 'afternoon-slots');
+            else renderSlots(morning, 'morning-slots');
+
+            setTimeout(showDetailsStep, 250);
+          });
+        }
+
+        container.appendChild(btn);
+      });
+    }
+
+    function goBackToCalendar() {
+      document.getElementById('step-time').style.display = 'none';
+      document.getElementById('step-calendar').style.display = 'block';
+      setStep(1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function showDetailsStep() {
+      document.getElementById('step-time').style.display = 'none';
+      document.getElementById('step-details').style.display = 'block';
+      setStep(3);
+
+      const dateStr = selectedDate.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+      document.getElementById('sum-doctor').textContent = currentDoctor.name;
+      document.getElementById('sum-date').textContent = dateStr;
+      document.getElementById('sum-time').textContent = fmt12h(selectedTime) + ' – ' + endTimeText(selectedTime);
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function endTimeText(time) {
+      const [h,m] = time.split(':').map(Number);
+      const end = new Date(0,0,0,h,m + SLOT_DURATION);
+      return fmt12h(pad(end.getHours()) + ':' + pad(end.getMinutes()));
+    }
+
+    function goBackToTime() {
+      document.getElementById('step-details').style.display = 'none';
+      showTimeStep();
+    }
+
+    // ///////////////////////////// Handles Booking Form Submission
+    async function confirmBooking() {
+      const name = document.getElementById('patient-name').value.trim();
+      const email = document.getElementById('patient-email').value.trim();
+      const phone = document.getElementById('patient-phone').value.trim();
+      const reason = document.getElementById('patient-reason').value.trim();
+      const errEl = document.getElementById('form-error');
+
+      if (!name) { errEl.textContent = 'Please enter your full name.'; errEl.style.display = 'block'; return; }
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent = 'Please enter a valid email address.'; errEl.style.display = 'block'; return; }
+      errEl.style.display = 'none';
+
+      const btn = document.getElementById('confirm-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-sm"></span> Confirming…';
+
+      const bookingKey = slotKey(currentDoctor._id, selectedDate, selectedTime);
+      const bookingData = {
+        doctor: currentDoctor.name,
+        doctorEmail: currentDoctor.email,
+        date: selectedDate.toISOString().slice(0,10),
+        time: selectedTime,
+        patient: name,
+        patientEmail: email,
+        phone,
+        reason,
+        bookedAt: new Date().toISOString(),
+      };
+      localStorage.setItem(bookingKey, JSON.stringify(bookingData));
+
+      const dateStr = selectedDate.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+      const timeStr = fmt12h(selectedTime);
+      const endTimeStr = endTimeText(selectedTime);
+
+      const emailParams = {
+        doctor_name: currentDoctor.name,
+        doctor_spec: currentDoctor.spec,
+        doctor_email: currentDoctor.email,
+        patient_name: name,
+        patient_email: email,
+        patient_phone: phone || 'Not provided',
+        appointment_date: dateStr,
+        appointment_time: timeStr + ' – ' + endTimeStr,
+        reason: reason || 'Not specified',
+        booking_id: bookingKey.slice(-12).toUpperCase(),
+      };
+
+      document.getElementById('step-details').style.display = 'none';
+      document.getElementById('step-confirm').style.display = 'block';
+      setStep(4);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      document.getElementById('confirm-details').innerHTML = `
+        <div class="confirm-row"><i class="fas fa-user-md"></i> Doctor <strong>${currentDoctor.name}</strong></div>
+        <div class="confirm-row"><i class="fas fa-calendar"></i> Date <strong>${dateStr}</strong></div>
+        <div class="confirm-row"><i class="fas fa-clock"></i> Time <strong>${timeStr} – ${endTimeStr}</strong></div>
+        <div class="confirm-row"><i class="fas fa-user"></i> Patient <strong>${name}</strong></div>
+        <div class="confirm-row"><i class="fas fa-envelope"></i> Email <strong>${email}</strong></div>
+        <div class="confirm-row"><i class="fas fa-hashtag"></i> Booking ID <strong>${emailParams.booking_id}</strong></div>
+      `;
+
+      sendEmail('patient', emailParams);
+      sendEmail('doctor', emailParams);
+    }
+
+    // /////////////////// Sending emails through EmailJS API
+    async function sendEmail(recipient, params) {
+      const statusId = recipient === 'patient' ? 'patient-email-status' : 'doctor-email-status';
+      const label = recipient === 'patient' ? 'Patient confirmation' : 'Doctor notification';
+      
+      const templateId = recipient === 'patient' ? EMAILJS_CONFIG.patientTemplateId : EMAILJS_CONFIG.doctorTemplateId;
+
+      const el = document.getElementById(statusId);
+      try {
+        await emailjs.send(EMAILJS_CONFIG.serviceId, templateId, params);
+        el.className = 'email-status sent';
+        el.innerHTML = `<i class="fas fa-check-circle"></i> ${label} sent`;
+      } catch (err) {
+        console.error('EmailJS error:', err);
+        el.className = 'email-status failed';
+        el.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${label} failed — check config`;
+      }
+    }
+
+    /////////// Updates Top Progress Bar Active State
+    function setStep(active) {
+      for (let i = 1; i <= 4; i++) {
+        const el = document.getElementById('bstep-' + i);
+        el.classList.remove('active','done');
+        if (i < active) el.classList.add('done');
+        if (i === active) el.classList.add('active');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const doctorLoaded = await loadDoctorFromURL();
+      if (!doctorLoaded) return;
+      calendarDate = new Date();
+      calendarDate.setDate(1);
+      renderCalendar();
+    });
+  </script>
+</body>
+</html>
